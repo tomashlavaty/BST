@@ -80,7 +80,7 @@ public class BST {
                         else{
                             rodic.setLeft(actual.getLeft());
                             break;
-                        }                                            
+                        }                                             
                     }
                     else {
                         if(actual.getLeft()==null){
