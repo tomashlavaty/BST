@@ -33,7 +33,7 @@ public class Main {
         }
 
         System.out.println("----"+((BST_node)strom.search(1)).getPocetDeti());
-         strom.delete(59);
+         strom.delete(81);
         //strom.add(new BST_node(new Kniha(123)));
         strom.vypis();
         
