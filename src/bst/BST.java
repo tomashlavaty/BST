@@ -11,8 +11,7 @@ package bst;
  */
 public class BST {
 
-    //private Kniha k = new Kniha(5);
-    private BST_node root;// = new BST_node(k);
+    private BST_node root;
 
     public void add(BST_node paNode) {
 
@@ -23,28 +22,22 @@ public class BST {
         BST_node actual = root;
         while (true) {
 
-            System.out.println("Adept" + paNode.getData().toString());
-            if (actual.getData().compare(paNode) == -1) {
+            if (actual.getData().compare(paNode.getData().getKey()) == -1) {
                 if (actual.getLeft() == null) {
                     actual.setLeft(paNode);
-                    System.out.println(paNode.getData().toString() + "ulozene do lava");
                     break;
                 } else {
                     actual = actual.getLeft();
-                    System.out.println(paNode.getData().toString() + "pokracuje  do lava");
                 }
 
-            } else if (actual.getData().compare(paNode) == 1) {
+            } else if (actual.getData().compare(paNode.getData().getKey()) == 1) {
                 if (actual.getRight() == null) {
                     actual.setRight(paNode);
-                    System.out.println(paNode.getData().toString() + "ulozene do prava");
                     break;
                 } else {
                     actual = actual.getRight();
-                    System.out.println(paNode.getData().toString() + "pokracuje do prava");
                 }
             } else {
-                System.out.println("Duplikat");
                 break;
             }
         }
@@ -54,9 +47,8 @@ public class BST {
         BST_node actual = root;
         BST_node rodic = null;
 
-        //BST_node hladany=(BST_node)this.search(paKey);
-        while (true) {
-
+        while (actual!=null) {
+            //ak 0 deti
             if (actual.getData().compare(paKey) == 0) {
                 if (actual.getPocetDeti() == 0) {
                     if (rodic.getLeft() == actual) {
@@ -66,6 +58,7 @@ public class BST {
                         rodic.setRight(null);
                         break;
                     }
+                    //ak jedno dieta  
                 } else if (actual.getPocetDeti() == 1) {
                     if (rodic.getLeft() == actual) {
                         if (actual.getLeft() == null) {
@@ -82,46 +75,40 @@ public class BST {
                         rodic.setRight(actual.getLeft());
                         break;
                     }
+                    //ak 2 deti
                 } else {
+
                     BST_node min = actual.getRight();
-                    BST_node rodicMin = null;
-                    //Najdenie minima v pravom podstrome
+                    BST_node rodicMin = actual;
+                    //Najdenie minima v Lavom podstrome
                     while (min.getLeft() != null) {
                         rodicMin = min;
                         min = min.getLeft();
-
+                    }
+                    //System.out.println(min.getData().toString());
+                    if (rodicMin.getLeft() == min) {
+                        rodicMin.setLeft(null);
+                    } else {
+                        rodicMin.setRight(null);
                     }
 
-                    //System.out.println("min"+min.toString());
-                    //break;
-                    
-                    if(actual==root){
-                        System.out.println("CHES mazat koren");
-                     min.setLeft(root.getLeft());
-                     min.setRight(root.getRight());
-                     root=min;
-                     
-                     
-                     break;
-                    }
-                    else{     
-                    
-                    min.setLeft(actual.getLeft());
-                    min.setRight(actual.getRight());
-                    rodicMin.setLeft(null);
-
-                    if (actual != root) {
+                    if (actual == root) {
+                        root.setLeft(actual.getLeft());
+                        root.setRight(actual.getRight());
+                        root.setData(min.getData());
+                    } else {
+                        min.setLeft(actual.getLeft());
+                        min.setRight(actual.getRight());
                         if (rodic.getLeft() == actual) {
                             rodic.setLeft(min);
                         } else {
                             rodic.setRight(min);
                         }
-                    }    
                     }
 
                     break;
                 }
-
+                //pokracovanie v hladani
             } else if (actual.getData().compare(paKey) == -1) {
                 rodic = actual;
                 actual = actual.getLeft();
@@ -129,15 +116,13 @@ public class BST {
                 rodic = actual;
                 actual = actual.getRight();
             }
+            
         }
     }
 
     public BST_node search(Object paKey) {
-
         BST_node actual = root;
-        /*if(actual.getData().getKey().equals(paKey)){              
-            return (BST_node)actual;
-        }*/
+
         while (true) {
             if (actual.getData().compare(paKey) == 0) {
                 return (BST_node) actual;
@@ -150,7 +135,7 @@ public class BST {
             }
 
             if (actual == null) {
-                System.out.println("nenasiel sa");
+                System.out.println("Nenasiel sa vrchol s klucom:" + paKey.toString());
                 return null;
             }
         }
